@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>World of Warcraft: Forever Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9ebf0; --surface:#ffffff; --surface2:#f1f3f8; --text:#1a2033; --muted:#566079; --border:#ccd1de;
+  --alliance:#2f5fc4; --alliance-soft:#dfe8fb; --gold:#a97f16; --horde:#b02f24; --horde-soft:#f8e0dc; --sky:#137f96; --sky-soft:#d9f0f5;
+  --shadow:0 1px 2px rgba(20,30,60,.08);
+  --head:'Marcellus','Iowan Old Style',Georgia,serif; --body:'Alegreya Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d111d; --surface:#161b2c; --surface2:#1e2540; --text:#e8ebf5; --muted:#a2abc4; --border:#2c3555;
+    --alliance:#7ba4ff; --alliance-soft:#1b2b52; --gold:#e3b94d; --horde:#ff7566; --horde-soft:#3b1a1a; --sky:#5fd0e6; --sky-soft:#12333c; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d111d; --surface:#161b2c; --surface2:#1e2540; --text:#e8ebf5; --muted:#a2abc4; --border:#2c3555;
+  --alliance:#7ba4ff; --alliance-soft:#1b2b52; --gold:#e3b94d; --horde:#ff7566; --horde-soft:#3b1a1a; --sky:#5fd0e6; --sky-soft:#12333c; --shadow:none;
+}
+html{height:auto;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.5}
+h1,h2,h3{font-family:var(--head);font-weight:400;margin:0;line-height:1.15}
+p{margin:0}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px}
+.ic{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:#141a33}
+.hero svg.scene{display:block;width:100%;height:230px}
+.hero .copy{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 18px;max-width:880px;margin:0 auto;left:0;right:0;
+  background:linear-gradient(to top,rgba(8,10,22,.85),rgba(8,10,22,0) 70%)}
+.hero h1{font-size:clamp(28px,7vw,46px);letter-spacing:.01em}
+.hero p{font-size:16px;opacity:.9;max-width:38em}
+.glance{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;max-width:880px;margin:0 auto;scrollbar-width:none}
+.glance div{flex:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:14px;line-height:1.25;color:var(--muted)}
+.glance b{display:block;font-family:var(--head);font-weight:400;font-size:19px;color:var(--text)}
+
+/* nav */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--border);padding-top:8px}
+.tabs .row{display:flex;gap:6px;padding:0 16px 8px;max-width:880px;margin:0 auto}
+.tab{flex:1;font:inherit;font-family:var(--head);font-size:17px;padding:10px 6px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.filter{display:flex;gap:6px;align-items:center;padding:0 16px 10px;max-width:880px;margin:0 auto;font-size:15px;color:var(--muted)}
+.filter[hidden]{display:none}
+.fbtn{font:inherit;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer}
+.fbtn[aria-pressed="true"].all{background:var(--text);color:var(--bg);border-color:var(--text)}
+.fbtn[aria-pressed="true"].A{background:var(--alliance);color:#fff;border-color:var(--alliance)}
+.fbtn[aria-pressed="true"].H{background:var(--horde);color:#fff;border-color:var(--horde)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+section.panel{padding:18px 0 40px}
+section.panel[hidden]{display:none}
+.lead{color:var(--muted);margin:4px 0 16px;max-width:40em}
+h2{font-size:26px;margin-bottom:4px}
+
+/* faction cards */
+.faction{border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--border);margin-bottom:18px;box-shadow:var(--shadow)}
+.faction .banner{position:relative;height:150px}
+.faction .banner svg{display:block;width:100%;height:100%}
+.faction .crest{position:absolute;left:16px;bottom:-26px;width:84px;height:84px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.faction .body{padding:34px 16px 16px}
+.faction h3{font-size:26px}
+.faction .tag{font-style:italic;color:var(--muted);margin-bottom:10px}
+.faction dl{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0 0}
+.faction dt{font-family:var(--head);font-size:16px;color:var(--gold)}
+.faction dd{margin:0}
+.swatches{display:flex;gap:6px;margin-top:6px}
+.swatches i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+.newnote{margin-top:14px;padding:10px 12px;border-radius:10px;font-size:15px}
+.faction.A .newnote{background:var(--alliance-soft)} .faction.H .newnote{background:var(--horde-soft)}
+.setting{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.setting h3{font-size:21px;margin-bottom:6px}
+
+/* race cards */
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-left-width:6px;border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.card.A{border-left-color:var(--alliance)} .card.H{border-left-color:var(--horde)}
+.card.S{border-left-color:var(--sky)}
+.card .top{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.badge{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:24px;color:#fff}
+.A .badge{background:#2f5fc4} .H .badge{background:#b02f24} .S .badge{background:#137f96}
+.card h3{font-size:22px}
+.card .sub{font-size:14px;color:var(--muted)}
+.pill{display:inline-block;font-size:12.5px;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:middle;font-family:var(--body);font-weight:700}
+.pill.new{background:var(--gold);color:#fff}
+.pill.pack{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.racials{list-style:none;margin:10px 0;padding:0;display:grid;gap:6px}
+.racials li{font-size:15px;padding:6px 8px;border-radius:8px;background:var(--surface2)}
+.racials b{font-weight:700}
+.tagpill{font-size:12px;font-weight:700;padding:0 6px;border-radius:5px;margin-right:6px;color:#fff}
+.tagpill.act{background:var(--gold)} .tagpill.pas{background:var(--muted)}
+.classrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:14px;padding:2px 10px 2px 3px;border-radius:999px;background:var(--surface2);border:1px solid var(--border)}
+.chip .ic{color:var(--c);background:#12162a;border-radius:50%;padding:3px;width:1.6em;height:1.6em}
+.chip .star{color:var(--gold);font-weight:700}
+.chip.newc{border-color:var(--gold)}
+.chipdark .ic{filter:none}
+
+/* class cards */
+.cls{display:flex;flex-direction:column;gap:8px}
+.cls .head{display:flex;gap:12px;align-items:center}
+.cbadge{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none;background:#12162a;color:var(--c);font-size:28px;border:2px solid var(--c)}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{font-size:13.5px;padding:2px 9px;border-radius:6px;background:var(--surface2);color:var(--muted)}
+.cls .who{font-size:14px;color:var(--muted)}
+
+/* matrix */
+.mwrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface);margin-top:8px}
+table.matrix{border-collapse:separate;border-spacing:0;min-width:640px;width:100%;font-size:15px}
+.matrix th,.matrix td{padding:6px 4px;text-align:center;border-bottom:1px solid var(--border)}
+.matrix thead th{position:sticky;top:0;background:var(--surface);font-weight:400;font-size:12px;color:var(--muted);vertical-align:bottom}
+.matrix thead .cbadge{width:34px;height:34px;font-size:18px;border-radius:9px;margin:0 auto 2px;border-width:1.5px}
+.matrix tbody th{text-align:left;position:sticky;left:0;background:var(--surface);padding-left:10px;min-width:150px;font-weight:400;border-right:1px solid var(--border);z-index:1}
+.matrix tbody th .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.matrix tr:last-child th,.matrix tr:last-child td{border-bottom:0}
+.m-yes{color:var(--text);font-size:19px} .m-new{color:var(--gold);font-size:20px} .m-no{color:var(--border)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0;font-size:15px;color:var(--muted)}
+.legend b{font-size:19px}
+.foot{font-size:14px;color:var(--muted);border-top:1px solid var(--border);padding:16px 0 30px}
+.foot a{color:var(--alliance)}
+h2.sec{margin:26px 0 4px}
+@media (prefers-reduced-motion:no-preference){.tab,.fbtn{transition:background .15s,color .15s}}
+</style>
+</head>
+<body>
+
+<!-- glyph sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- classes -->
+    <symbol id="k-warrior" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19M3.5 8.5l5-5M15.5 20.5l5-5M20.5 8.5l-5-5M8.5 20.5l-5-5"/></symbol>
+    <symbol id="k-paladin" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M12 8v8M9 11.5h6"/></symbol>
+    <symbol id="k-hunter" viewBox="0 0 24 24"><path d="M6 4c9 2 9 14 0 16M6 4v16M6 12h14M17 9l3 3-3 3"/></symbol>
+    <symbol id="k-rogue" viewBox="0 0 24 24"><path d="M12 2l2.5 9-2.5 2.5L9.5 11z"/><path d="M8 15h8M12 15v6"/></symbol>
+    <symbol id="k-priest" viewBox="0 0 24 24"><ellipse cx="12" cy="3.6" rx="3.2" ry="1.3"/><path d="M12 7v14M7 11.5h10"/></symbol>
+    <symbol id="k-shaman" viewBox="0 0 24 24"><path d="M13 2L5 13.5h6L10 22l9-12h-6z"/></symbol>
+    <symbol id="k-mage" viewBox="0 0 24 24"><path d="M12 2c1 6 4 9 10 10-6 1-9 4-10 10-1-6-4-9-10-10 6-1 9-4 10-10z"/></symbol>
+    <symbol id="k-warlock" viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-4 3-6 1 2 2 2 2 1 0-2 0-4 1-7z"/></symbol>
+    <symbol id="k-druid" viewBox="0 0 24 24"><path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15z"/><path d="M5 19l8-8"/></symbol>
+    <!-- races -->
+    <symbol id="r-human" viewBox="0 0 24 24"><path d="M4 18h16l1-10-5 4-4-7-4 7-5-4z"/></symbol>
+    <symbol id="r-dwarf" viewBox="0 0 24 24"><path d="M13 5l6 6-3 3-6-6z"/><path d="M12.5 11.5L4 20"/></symbol>
+    <symbol id="r-nightelf" viewBox="0 0 24 24"><path d="M18.5 14.5A8 8 0 1 1 9.5 3.5a6.5 6.5 0 0 0 9 11z"/></symbol>
+    <symbol id="r-gnome" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol>
+    <symbol id="r-orc" viewBox="0 0 24 24"><path d="M6 21L15 8"/><path d="M13 6c3-3 8-2 8-2s1 5-2 8c-2-.4-4.500-2.500-6-6z"/></symbol>
+    <symbol id="r-undead" viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7c0 3 1 4.500 3 5.500V20h8v-4.500c2-1 3-2.500 3-5.500a7 7 0 0 0-7-7z"/><circle cx="9.300" cy="11" r="1.200" style="fill:currentColor"/><circle cx="14.700" cy="11" r="1.200" style="fill:currentColor"/></symbol>
+    <symbol id="r-tauren" viewBox="0 0 24 24"><path d="M3 5c0 6 3 9 9 9s9-3 9-9"/><path d="M12 14v6M9.500 20h5"/></symbol>
+    <symbol id="r-troll" viewBox="0 0 24 24"><path d="M4 20L19 5"/><path d="M12 4h8v8"/></symbol>
+    <symbol id="r-skyborne" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3M3 19h7"/></symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <svg class="scene" viewBox="0 0 800 230" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: mountains split between an Alliance-blue side and a Horde-red side, with a floating island in the sky">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151a3d"/><stop offset=".6" stop-color="#3a3f7d"/><stop offset="1" stop-color="#e5a15a"/></linearGradient>
+      <linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a78e0"/><stop offset="1" stop-color="#15295c"/></linearGradient>
+      <linearGradient id="gH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9483a"/><stop offset="1" stop-color="#3a0f0d"/></linearGradient>
+    </defs>
+    <rect width="800" height="230" fill="url(#sky)"/>
+    <g fill="#fff" opacity=".8"><circle cx="60" cy="30" r="1.4"/><circle cx="150" cy="60" r="1"/><circle cx="260" cy="24" r="1.5"/><circle cx="360" cy="52" r="1"/><circle cx="520" cy="28" r="1.3"/><circle cx="640" cy="58" r="1"/><circle cx="740" cy="26" r="1.4"/></g>
+    <circle cx="400" cy="150" r="46" fill="#ffd58a" opacity=".85"/>
+    <!-- floating isle -->
+    <g transform="translate(560 40)">
+      <path d="M0 22c14-8 44-8 62 0-6 14-14 24-31 34C16 46 6 36 0 22z" fill="#2b2f5c"/>
+      <path d="M0 22c14-8 44-8 62 0-18 5-44 5-62 0z" fill="#5fd0e6"/>
+      <path d="M12 18l6-12 6 12zM34 18l7-10 7 10z" fill="#e8f7fb" opacity=".9"/>
+    </g>
+    <!-- Alliance side -->
+    <path d="M0 230V150l60-30 50 40 60-60 70 70 60-40 100 60v40z" fill="url(#gA)"/>
+    <g fill="#0e1c40"><rect x="40" y="150" width="16" height="50"/><path d="M36 150l12-18 12 18z"/><rect x="72" y="162" width="14" height="38"/><path d="M69 162l10-14 10 14z"/><rect x="100" y="144" width="18" height="56"/><path d="M96 144l13-20 13 20z"/></g>
+    <g stroke="#e3b94d" stroke-width="2"><path d="M48 132v-12M79 148v-10M109 124v-12"/></g>
+    <!-- Horde side -->
+    <path d="M800 230V140l-50-30-40 50-70-70-60 60-60-40-120 60v60z" fill="url(#gH)"/>
+    <g fill="#1d0807"><path d="M690 200l-9-42 9-8 9 8z"/><path d="M718 200l-8-30 8-8 8 8z"/><path d="M664 200l-8-26 8-8 8 8z"/><path d="M745 200l-8-36 8-8 8 8z"/></g>
+    <path d="M0 200h800v30H0z" fill="#0d1020" opacity=".55"/>
+  </svg>
+  <div class="copy">
+    <h1>World of Warcraft: Forever</h1>
+    <p>A field guide to the two factions, the ten peoples who can join them, and the nine classes they can become.</p>
+  </div>
+</header>
+
+<div class="glance" aria-label="Forever at a glance">
+  <div><b>60</b>level cap, indefinitely</div>
+  <div><b>4</b>new zones</div>
+  <div><b>9 + 2</b>dungeons and raids</div>
+  <div><b>1,000+</b>new quests</div>
+  <div><b>6</b>new race and class combos</div>
+  <div><b>Nov 4</b>launch, beta live now</div>
+</div>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="row" role="tablist">
+    <button class="tab" role="tab" id="t-factions" aria-selected="true" aria-controls="p-factions">Factions</button>
+    <button class="tab" role="tab" id="t-races" aria-selected="false" aria-controls="p-races">Races</button>
+    <button class="tab" role="tab" id="t-classes" aria-selected="false" aria-controls="p-classes">Classes</button>
+  </div>
+  <div class="filter" id="filter" hidden>
+    <span>Show</span>
+    <button class="fbtn all" data-f="all" aria-pressed="true">Both</button>
+    <button class="fbtn A" data-f="A" aria-pressed="false">Alliance</button>
+    <button class="fbtn H" data-f="H" aria-pressed="false">Horde</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- FACTIONS -->
+<section class="panel" id="p-factions" role="tabpanel" aria-labelledby="t-factions">
+  <h2>Pick your side</h2>
+  <p class="lead">Two sides, one war-torn world. This is the fantasy each faction sells, what its lands look like, and what Forever changes for it.</p>
+
+  <article class="faction A">
+    <div class="banner">
+      <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="fa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa8f5"/><stop offset="1" stop-color="#2a4ea8"/></linearGradient></defs>
+        <rect width="400" height="150" fill="url(#fa)"/>
+        <circle cx="330" cy="40" r="20" fill="#fff3c4" opacity=".9"/>
+        <g fill="#16295e"><rect x="30" y="76" width="26" height="74"/><path d="M26 76l17-30 17 30z"/><rect x="66" y="96" width="20" height="54"/><path d="M62 96l14-22 14 22z"/><rect x="96" y="66" width="30" height="84"/><path d="M92 66l19-34 19 34z"/><rect x="136" y="100" width="34" height="50"/><rect x="180" y="84" width="24" height="66"/><path d="M176 84l16-26 16 26z"/><rect x="214" y="106" width="60" height="44"/><rect x="284" y="90" width="26" height="60"/><path d="M280 90l17-28 17 28z"/></g>
+        <g stroke="#e3b94d" stroke-width="2.500"><path d="M43 46V30M111 32V16M192 58V42M297 62V46"/></g>
+        <g fill="#e3b94d"><path d="M43 30l12 4-12 4zM111 16l12 4-12 4zM192 42l12 4-12 4zM297 46l12 4-12 4z"/></g>
+        <path d="M0 150v-14c60-14 120-8 200-2s140 4 200-8v24z" fill="#3c7a3a"/>
+      </svg>
+      <svg class="crest" viewBox="0 0 100 110" role="img" aria-label="Original shield crest for the Alliance section">
+        <path d="M50 4l40 12v34c0 27-18 44-40 56C28 94 10 77 10 50V16z" fill="#2a4ea8" stroke="#e3b94d" stroke-width="4"/>
+        <path d="M50 16l30 9v25c0 20-13 32-30 42-17-10-30-22-30-42V25z" fill="none" stroke="#e3b94d" stroke-width="1.500" opacity=".6"/>
+        <path d="M28 52l7-14 8 10 7-16 7 16 8-10 7 14z" fill="#e3b94d"/>
+        <path d="M50 58v26M42 68h16" stroke="#e3b94d" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="body">
+      <h3>Alliance</h3>
+      <p class="tag">Honour, duty and the light</p>
+      <p>The shield of civilisation: old kingdoms that set aside their rivalries to defend their cities, farms and libraries from whatever crawls out of the dark. It is a fantasy of knights, craftsmen and ancient forest wardens standing shoulder to shoulder.</p>
+      <dl>
+        <div><dt>Look and feel</dt><dd>Royal blue and burnished gold. Stone keeps, cathedral light, heraldic banners, polished plate, warm hearths and green countryside.
+          <div class="swatches" aria-hidden="true"><i style="background:#2a4ea8"></i><i style="background:#e3b94d"></i><i style="background:#3c7a3a"></i><i style="background:#c9ccd6"></i></div></dd></div>
+        <div><dt>Homelands</dt><dd>Stormwind for Humans, Ironforge for Dwarves and Gnomes, Darnassus for Night Elves.</dd></div>
+        <div><dt>You will like it if</dt><dd>You want a clear heroic cause, tidy heraldry, and the feeling of defending something worth keeping.</dd></div>
+      </dl>
+      <p class="newnote"><b>New in Forever:</b> Dwarves can be Shaman, which gives the Alliance its first Shaman. High Order Skyborne join as the faction's only new race, with Mage access.</p>
+    </div>
+  </article>
+
+  <article class="faction H">
+    <div class="banner">
+      <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="fh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f08a5a"/><stop offset="1" stop-color="#8f2a1e"/></linearGradient></defs>
+        <rect width="400" height="150" fill="url(#fh)"/>
+        <circle cx="70" cy="46" r="22" fill="#ffd58a" opacity=".85"/>
+        <path d="M0 150V92l50-22 40 34 60-44 70 60 60-40 60 30 60-26v66z" fill="#5a1a13"/>
+        <g fill="#1d0807"><path d="M200 150l-9-64 9-14 9 14z"/><path d="M228 150l-8-50 8-12 8 12z"/><path d="M172 150l-8-46 8-12 8 12z"/><path d="M256 150l-8-56 8-12 8 12z"/><path d="M144 150l-7-36 7-10 7 10z"/><path d="M284 150l-7-38 7-10 7 10z"/></g>
+        <g fill="#1d0807"><path d="M40 150v-30l14-14 14 14v30z"/><path d="M340 150v-34l14-14 14 14v34z"/></g>
+        <g stroke="#ff9a6b" stroke-width="2" opacity=".85"><path d="M47 106v-10M347 102v-10"/></g>
+        <path d="M0 150v-8c80-8 160-4 240 0s110 4 160-4v12z" fill="#2a0b08"/>
+      </svg>
+      <svg class="crest" viewBox="0 0 100 110" role="img" aria-label="Original spiked crest for the Horde section">
+        <path d="M50 3l14 26 30-6-16 26 20 24-32-2-16 30-16-30-32 2 20-24L6 23l30 6z" fill="#8f2a1e" stroke="#1d0807" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M36 44l14 10 14-10-4 20-10 8-10-8z" fill="#f2e8d8"/>
+        <path d="M40 46h20" stroke="#1d0807" stroke-width="2.500"/>
+      </svg>
+    </div>
+    <div class="body">
+      <h3>Horde</h3>
+      <p class="tag">Strength, survival and found family</p>
+      <p>A coalition of outcasts: orcs, trolls, tauren and the free-willed dead, all pushed to the edges of the world who decided to survive on their own terms. It is a fantasy of honour earned instead of inherited, and of loyalty over pedigree.</p>
+      <dl>
+        <div><dt>Look and feel</dt><dd>Crimson and blackened iron. Spikes, hide, bone, war drums, ritual paint, red rock, scorched plains and campfires.
+          <div class="swatches" aria-hidden="true"><i style="background:#8f2a1e"></i><i style="background:#1d0807"></i><i style="background:#f08a5a"></i><i style="background:#e6d7bd"></i></div></dd></div>
+        <div><dt>Homelands</dt><dd>Orgrimmar for Orcs and Trolls, Thunder Bluff for Tauren, the Undercity for the Undead (the Forsaken).</dd></div>
+        <div><dt>You will like it if</dt><dd>You love underdog stories, primal and tribal aesthetics, and a bit of moral grey.</dd></div>
+      </dl>
+      <p class="newnote"><b>New in Forever:</b> Undead can be Paladins, which gives the Horde its first Paladin. Windshaper Skyborne join with Shaman access.</p>
+    </div>
+  </article>
+
+  <div class="setting">
+    <h3>Where and when Forever happens</h3>
+    <p>Forever is a separate branch of WoW built on the original 2004 game. It sits in the first year of the world, after the events of the Forsaken Kingdom campaign and before Molten Core, and it does not share continuity with modern WoW. The level cap stays at 60 and new content arrives as stories, zones, dungeons and raids instead of new level ranges. It is included with a WoW subscription, except the Skyborne race, which needs the Skyborne Heroic Pack or higher.</p>
+  </div>
+</section>
+
+<!-- RACES -->
+<section class="panel" id="p-races" role="tabpanel" aria-labelledby="t-races" hidden>
+  <h2>The ten peoples</h2>
+  <p class="lead">Every race has four racials in Forever: two actives (one combat cooldown, one role-play or utility) and two passives. A gold star on a class marks a combination that is new to Forever. Racial numbers come from beta-era guides and may shift.</p>
+  <div class="grid" id="raceGrid"></div>
+</section>
+
+<!-- CLASSES -->
+<section class="panel" id="p-classes" role="tabpanel" aria-labelledby="t-classes" hidden>
+  <h2>Nine classes</h2>
+  <p class="lead">No new classes, but Blizzard has reworked every class and talent tree so each of the 27 specs has a place in dungeons or raids. Each card shows who can play it.</p>
+  <div class="grid" id="classGrid"></div>
+
+  <h2 class="sec">Who can play what</h2>
+  <p class="lead">The at-a-glance chart. Scroll sideways on a phone; race names stay pinned.</p>
+  <div class="legend"><span><b class="m-yes">●</b> can play</span><span><b class="m-new">★</b> new in Forever</span><span><b class="m-no">–</b> not available</span></div>
+  <div class="mwrap"><table class="matrix" id="matrix"></table></div>
+  <p class="lead" style="margin-top:12px">Both factions now have all nine classes. Skyborne choose a side at creation: High Order (Alliance) adds Mage, Windshaper (Horde) adds Shaman, and neither can be a Paladin, Priest or Warlock.</p>
+</section>
+
+<div class="foot">
+  <p>Compiled on September 20, 2026 from Blizzard's announcements and community guides during the beta. Details can change before launch. All icons, crests and scenes here are original illustrations, not official Blizzard art. Sources:
+    <a href="https://worldofwarcraft.blizzard.com/en-us/forever">Blizzard</a>,
+    <a href="https://warcraft.wiki.gg/wiki/World_of_Warcraft:_Forever">Warcraft Wiki</a>,
+    <a href="https://www.icy-veins.com/wow-forever/race-guide">Icy Veins</a>,
+    <a href="https://mobalytics.gg/wow-forever/guides/wow-forever-race-class-combinations">Mobalytics</a>.</p>
+</div>
+</main>
+
+<script>
+(function(){
+  var CLASSES = [
+    {id:'warrior',name:'Warrior',color:'#C69B6D',role:'Tank or melee damage',armor:'Plate',res:'Rage',specs:'Arms, Fury, Protection',
+     fan:'The weapon master. You wade into the front line in heavy armour, soak up hits, and win through stance, timing and sheer stubbornness.',pick:'Simple to grasp, hard to master, and open to every race.'},
+    {id:'paladin',name:'Paladin',color:'#F48CBA',role:'Healer, tank or melee damage',armor:'Plate',res:'Mana',specs:'Holy, Protection, Retribution',
+     fan:'A holy knight who fights with hammer and prayer. You bless allies, shield the weak and smite the wicked. Blizzard has previewed a taunt for Protection and a new group heal for Holy.',pick:'Sturdy, supportive and heroic. Human, Dwarf and Undead only.'},
+    {id:'hunter',name:'Hunter',color:'#AAD372',role:'Ranged damage',armor:'Mail',res:'Mana',specs:'Beast Mastery, Marksmanship, Survival',
+     fan:'A wilderness tracker with a loyal beast at your side. You pick enemies apart from range with bow, gun and trap.',pick:'A pet, a bow and a big open world. Seven of ten races can be one.'},
+    {id:'rogue',name:'Rogue',color:'#FFF468',role:'Melee damage',armor:'Leather',res:'Energy and combo points',specs:'Assassination, Combat, Subtlety',
+     fan:'The shadow blade. You slip past guards, open with poison and steel, and vanish before anyone knows you were there.',pick:'Stealth, tricks and burst damage. Everyone but Tauren can play one.'},
+    {id:'priest',name:'Priest',color:'#DDE2EE',role:'Healer or shadow damage',armor:'Cloth',res:'Mana',specs:'Discipline, Holy, Shadow',
+     fan:'A conduit of faith. You mend wounds, ward allies, or embrace the dark and turn fear and pain into a weapon.',pick:'The classic healer, with a spooky Shadow side.'},
+    {id:'shaman',name:'Shaman',color:'#4E9BFF',role:'Healer, caster or melee damage',armor:'Mail',res:'Mana',specs:'Elemental, Enhancement, Restoration',
+     fan:'A spiritual bridge to the elements. You drop totems, call lightning, and channel storm, earth and water.',pick:'Versatile and colourful. Now on both sides thanks to the Dwarf.'},
+    {id:'mage',name:'Mage',color:'#5CD3F2',role:'Ranged damage',armor:'Cloth',res:'Mana',specs:'Arcane, Fire, Frost',
+     fan:'A scholar of raw magic. You bend fire, frost and arcane power, teleport through the world, and conjure snacks for the party.',pick:'Glass-cannon damage with excellent utility.'},
+    {id:'warlock',name:'Warlock',color:'#9D9FFF',role:'Ranged damage',armor:'Cloth',res:'Mana',specs:'Affliction, Demonology, Destruction',
+     fan:'A forbidden-magic wielder who binds demons and spreads curses, trading safety for power and a great sense of theatre.',pick:'Minions, curses and shadowy flames.'},
+    {id:'druid',name:'Druid',color:'#FF8A2A',role:'Healer, tank, melee or caster damage',armor:'Leather',res:'Mana, rage, energy by form',specs:'Balance, Feral, Restoration',
+     fan:'A shapeshifter of the wild. You swap between bear, cat, moonkin and healer, guided by nature. Skyborne Druids get sky-blue forms of their own.',pick:'The jack of all trades. Night Elf, Tauren or Skyborne.'}
+  ];
+  var ORDER = ['druid','hunter','mage','paladin','priest','rogue','shaman','warlock','warrior'];
+  var CLS = {}; CLASSES.forEach(function(c){CLS[c.id]=c;});
+
+  var R = [
+    {id:'human',name:'Human',f:'A',home:'Stormwind',
+     fan:'Adaptable and stubborn, humans built the largest kingdom on the continent. They are the all-rounders: hopeful, resourceful and good at almost everything.',
+     classes:['warrior','paladin','rogue','priest','mage','warlock','hunter*'],
+     racials:[['Will to Survive','a','Instantly remove all Stuns.'],['Perception','a','Detect stealthed enemies for 20 seconds.'],['Sword Specialization','p','Swords add 2% Spell and Ability Critical Strike.'],['The Human Spirit','p','Total Spirit increased by 5%.']]},
+    {id:'dwarf',name:'Dwarf',f:'A',home:'Ironforge',
+     fan:'Mountain-hardened smiths and treasure hunters, loud, loyal and hard to knock over. Their hearths glow deep inside the snowy peaks.',
+     classes:['warrior','paladin','hunter','rogue','priest','shaman*'],
+     racials:[['Stoneform','a','Immune to Poison, Bleed and Disease and take less Physical damage for 8 seconds.'],['Find Treasure','a','Track nearby treasure chests.'],['Big Game Hunter','p','Damage to Beasts increased by 5%.'],['Mace Specialization','p','Maces add 1% Spell and Ability Critical Strike.']]},
+    {id:'nightelf',name:'Night Elf',f:'A',home:'Darnassus',
+     fan:'Ancient forest guardians who guard nature under Elune, moonlight and giant trees. Graceful, secretive and centuries old.',
+     classes:['warrior','hunter','rogue','priest','druid'],
+     racials:[["Elune's Light",'a','Critical Strike chance +10% for 15 seconds.'],['Shadowmeld','a','Gain Stealth. Breaks when you move.'],['Quickness','p','Dodge and Movement Speed +2%.'],['Wisp Spirit','p','Corpse-running speed +75%.']]},
+    {id:'gnome',name:'Gnome',f:'A',home:'Ironforge (after Gnomeregan)',
+     fan:'Tiny, brilliant tinkerers whose gadgets sometimes explode on purpose. Curiosity and cleverness beat size every time.',
+     classes:['warrior','rogue','mage','warlock','priest*'],
+     racials:[['Escape Artist','a','Break all Roots and Snares and resist them for 5 seconds.'],['Eureka!','a','Your next 3 spells or abilities cost less and hit or heal 10% harder.'],['Engineering Specialization','p','Engineering devices fail or backfire 20% less.'],['Expansive Mind','p','Maximum Mana, Rage and Energy +5%.']]},
+    {id:'skyA',name:'Skyborne',variant:'High Order',f:'A',home:'Zephras Isle (levels 1 to 12)',skyborne:true,
+     fan:'Shen-dorei, the "hidden people": elves descended from exiled Highborne, living on a floating island in the sky. The High Order are pragmatic magisters who want independence now that their wind-spirit protectors have vanished.',
+     classes:['warrior','hunter','rogue','druid','mage'],
+     racials:[['Read Ley Line','a','Health and Mana regeneration +100% for 15 seconds.'],['Walk on Air','a','Glide downward for 10 seconds.'],['Elemental Insight','p','Damage to Elementals +5%.'],['Wind Blessed','p','Spell, Ranged and Melee Haste +1%.']]},
+    {id:'orc',name:'Orc',f:'H',home:'Orgrimmar (Durotar)',
+     fan:'Proud warriors with shamanic roots who broke free of a demonic curse. Loyalty and strength are their creed.',
+     classes:['warrior','hunter','rogue','shaman','warlock','mage*'],
+     racials:[['Blood Fury','a','Attack Power and Spell Power +10% for 15 seconds.'],['Shatter Curse','a','Immune to Curses and Banes and take less Magic damage for 8 seconds.'],['Axe Specialization','p','Axes add 1% Spell and Ability Critical Strike.'],['Hardiness','p','Stun duration reduced by 20%.']]},
+    {id:'undead',name:'Undead',alt:'Forsaken',f:'H',home:'Undercity (Tirisfal Glades)',
+     fan:'The free-willed dead who broke away from the Lich King, they hold onto their minds, their grudges and a very dark sense of humour.',
+     classes:['warrior','rogue','priest','mage','warlock','paladin*'],
+     racials:[['Will of the Forsaken','a','Instantly break all Charm, Fear and Sleep effects.'],['Cannibalize','a','Consume a nearby corpse to gain 35% Health and Mana over time.'],['Underwater Breathing','p','Breath lasts 300% longer.'],['Touch of the Grave','p','Chance on hit to drain health from the target.']]},
+    {id:'tauren',name:'Tauren',f:'H',home:'Thunder Bluff (Mulgore)',
+     fan:'Gentle giants who follow the Earth Mother and roam the great plains. Slow to anger, terrifying once they are.',
+     classes:['warrior','hunter','druid','shaman'],
+     racials:[['War Stomp','a','Stun all nearby targets for 2 seconds.'],['Cultivation','a','Grow bonus Herbalism nodes around you that anyone can gather.'],['Endurance','p','Health +5% and hit chance +1%.'],['Plainsrunning','p','Movement speed climbs the longer you run, up to +30%.']]},
+    {id:'troll',name:'Troll',f:'H',home:'Orgrimmar (Darkspear)',
+     fan:'The Darkspear tribe: lean, tusked, quick-witted and fond of voodoo and a good laugh. Nearly impossible to keep down.',
+     classes:['warrior','hunter','rogue','priest','mage','shaman','warlock*'],
+     racials:[['Berserking','a','Melee, Ranged and Spell Haste +10% for 12 seconds.'],['Rapid Regeneration','a','Regenerate 50% of maximum Health over time.'],['Beast Slaying','p','Damage to Beasts +5%.'],['Regeneration','p','10% of Health regeneration continues in combat.']]},
+    {id:'skyH',name:'Skyborne',variant:'Windshaper',f:'H',home:'Zephras Isle (levels 1 to 12)',skyborne:true,
+     fan:'The same hidden elves, but the Windshapers are the island\'s shamanic spiritual leaders and have sided with the Horde. They talk to the wind and want to keep the old bond alive.',
+     classes:['warrior','hunter','rogue','druid','shaman'],
+     racials:[['Skysight','a','Windshaper-only racial. Its effect had not been published in the guides I found.'],['Walk on Air','a','Glide downward for 10 seconds.'],['Elemental Insight','p','Damage to Elementals +5%.'],['Wind Blessed','p','Spell, Ranged and Melee Haste +1%.']]}
+  ];
+
+  var filter = 'all';
+  var $ = function(id){return document.getElementById(id);};
+  function ico(id){return '<svg class="ic" aria-hidden="true"><use href="#'+id+'"/></svg>';}
+  function inFilter(r){return filter==='all' || r.f===filter;}
+  function parse(s){var n=s.slice(-1)==='*';return {id:n?s.slice(0,-1):s,isNew:n};}
+
+  function renderRaces(){
+    var html='';
+    R.filter(inFilter).forEach(function(r){
+      var chips = r.classes.map(function(s){var p=parse(s),c=CLS[p.id];
+        return '<span class="chip'+(p.isNew?' newc':'')+'" style="--c:'+c.color+'">'+ico('k-'+c.id)+c.name+(p.isNew?' <span class="star" title="New in Forever">★</span>':'')+'</span>';}).join('');
+      var rac = r.racials.map(function(x){return '<li><span class="tagpill '+(x[1]==='a'?'act':'pas')+'">'+(x[1]==='a'?'Active':'Passive')+'</span><b>'+x[0]+'</b> '+x[2]+'</li>';}).join('');
+      var glyph = r.skyborne?'r-skyborne':'r-'+r.id;
+      var badgeCls = r.skyborne?'S':r.f;
+      html += '<article class="card '+badgeCls+'"><div class="top"><div class="badge" aria-hidden="true">'+ico(glyph)+'</div><div>'+
+        '<h3>'+r.name+(r.variant?' <span class="pill pack">'+r.variant+'</span>':'')+(r.skyborne?' <span class="pill new">New race</span>':'')+'</h3>'+
+        '<div class="sub">'+(r.f==='A'?'Alliance':'Horde')+(r.alt?' (also called '+r.alt+')':'')+', from '+r.home+'</div></div></div>'+
+        '<p>'+r.fan+'</p><ul class="racials">'+rac+'</ul><div class="sub">Can be</div><div class="classrow">'+chips+'</div></article>';
+    });
+    $('raceGrid').innerHTML = html;
+  }
+
+  function renderClasses(){
+    var html='';
+    CLASSES.forEach(function(c){
+      var who = R.filter(inFilter).filter(function(r){return r.classes.some(function(s){return parse(s).id===c.id;});}).map(function(r){
+        var s=r.classes.filter(function(x){return parse(x).id===c.id;})[0], isNew=parse(s).isNew;
+        return '<span class="chip'+(isNew?' newc':'')+'" style="--c:'+(r.f==='A'?'var(--alliance)':'var(--horde)')+'">'+ico(r.skyborne?'r-skyborne':'r-'+r.id)+r.name+(r.variant?' ('+(r.f==='A'?'A':'H')+')':'')+(isNew?' <span class="star">★</span>':'')+'</span>';}).join('');
+      html += '<article class="card cls" style="border-left-color:'+c.color+'"><div class="head"><div class="cbadge" style="--c:'+c.color+'" aria-hidden="true">'+ico('k-'+c.id)+'</div><div><h3>'+c.name+'</h3><div class="sub">'+c.role+'</div></div></div>'+
+        '<p>'+c.fan+'</p><div class="meta"><span>'+c.armor+'</span><span>'+c.res+'</span><span>'+c.specs+'</span></div><p class="who">'+c.pick+'</p><div class="sub">Who can play</div><div class="classrow">'+(who||'<span class="sub">No races in this filter.</span>')+'</div></article>';
+    });
+    $('classGrid').innerHTML = html;
+  }
+
+  function renderMatrix(){
+    var head='<thead><tr><th scope="col" style="text-align:left;padding-left:10px">Race</th>'+ORDER.map(function(id){var c=CLS[id];
+      return '<th scope="col"><div class="cbadge" style="--c:'+c.color+'">'+ico('k-'+id)+'</div>'+c.name+'</th>';}).join('')+'</tr></thead>';
+    var body='<tbody>'+R.filter(inFilter).map(function(r){
+      var col=r.f==='A'?'var(--alliance)':'var(--horde)';
+      var cells=ORDER.map(function(id){
+        var s=r.classes.filter(function(x){return parse(x).id===id;})[0];
+        if(!s) return '<td class="m-no" aria-label="not available">–</td>';
+        return parse(s).isNew?'<td class="m-new" aria-label="new in Forever">★</td>':'<td class="m-yes" aria-label="can play">●</td>';}).join('');
+      return '<tr><th scope="row"><span class="dot" style="background:'+col+'"></span>'+r.name+(r.variant?' <span class="sub">('+r.variant+')</span>':'')+'</th>'+cells+'</tr>';}).join('')+'</tbody>';
+    $('matrix').innerHTML = head+body;
+  }
+
+  function renderAll(){renderRaces();renderClasses();renderMatrix();}
+
+  var tabs=['factions','races','classes'];
+  function show(name){
+    tabs.forEach(function(t){
+      $('t-'+t).setAttribute('aria-selected', t===name?'true':'false');
+      $('p-'+t).hidden = t!==name;
+    });
+    $('filter').hidden = name==='factions';
+    window.scrollTo({top:0});
+  }
+  tabs.forEach(function(t){$('t-'+t).addEventListener('click',function(){show(t);});});
+  Array.prototype.forEach.call(document.querySelectorAll('.fbtn'),function(b){
+    b.addEventListener('click',function(){
+      filter=b.getAttribute('data-f');
+      Array.prototype.forEach.call(document.querySelectorAll('.fbtn'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      renderAll();
+    });
+  });
+  renderAll();
+})();
+</script>
+</body>
+</html>
